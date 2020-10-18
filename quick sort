@@ -1,0 +1,45 @@
+Quick sort is the most common sorting algorithm in the industry. If you look at most  in-built sort 
+functions (e.g, the unix sort() function), they will most likely use quick sort.   
+
+You should know how to implement it. It is rare to ask to code Quick Sort.  However, you can be asked details about 
+how it works, its time/space complexities,  pseudocode, etc.
+
+Also, You should know how to code the ​Dutch National Flag (DNF)​ problem. Once you know that, quick  sort is pretty trivial to implement.
+
+In DNF, we put all the elements equal to the pivot in the middle. There is a common implementation  where you put only the pivot in the middle.
+While that has the same worse case time complexity,  it does worse when there are a lot of duplicates in the array. Try it out yourself.  
+
+/*  
+ * Returns the border points of the middle section  
+ *   
+ * [0,0,0,1,1,1,2,2,2]  
+ *      ^       ^  
+ */ 
+ public static Pair<Integer> dutchNationalFlag(int[] a, int start, int end, int 
+ pivotIndex) {     
+      int pivot = a[pivotIndex];     
+      int low = start - 1, mid = start - 1, high = end + 1; 
+      
+     while (mid + 1 < high) {   
+          if (a[mid + 1] > pivot) {            
+              Utils.swap(a, high - 1, mid + 1);             
+              high--;         
+           } else if (a[mid + 1] == pivot) { 
+               mid++;   
+           } else {    
+               Utils.swap(a, mid + 1, low + 1);
+               mid++;       
+               low++;        
+           }   
+        } 
+        return new Pair<Integer>(low, high); 
+     } 
+     public static void quickSort(int[] a, int start, int end) {     
+          if (start < 0 || end >= a.length || start >= end)         
+             return; 
+          int pivot = start + (new Random().nextInt(end - start + 1)); 
+     
+       Pair<Integer> points = dutchNationalFlag(a, start, end, pivot);     quickSort(a, start, points.getFirst());     quickSort(a, points.getSecond(), end); } 
+ public static int[] quickSort(int[] a) {     if (a == null)         return a; 
+    quickSort(a, 0, a.length - 1);    return a; } 
+ 
